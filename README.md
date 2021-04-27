@@ -11,7 +11,10 @@ etl_config.json - the (optional) path to any config file that may be required by
 
 ## More Info
 **SparkContext** is the entry point to any spark functionality. When we run any Spark application, a driver program starts, which has the main function and your SparkContext gets initiated here. The driver program then runs the operations inside the executors on worker nodes.  
-**log4j** is a reliable, fast and flexible logging framework (APIs) written in Java, which is distributed under the Apache Software License. It has been ported to the C, C++, C#, Perl, Python, Ruby, and Eiffel languages.
+**log4j** is a reliable, fast and flexible logging framework (APIs) written in Java, which is distributed under the Apache Software License. It has been ported to the C, C++, C#, Perl, Python, Ruby, and Eiffel languages.  
+
+
+<img src="test/sparkcontext.jpg" width=400 height=400>
 
 ### Faced issue  
 I tried different codes to write pyspark dataframe to parquete/csv file like below codes, but none of them executed. So, I changed it to Pandas dataframe and then saved.
