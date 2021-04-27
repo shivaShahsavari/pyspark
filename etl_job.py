@@ -27,8 +27,6 @@ def main():
 
 def extract_data(spark):
     df = (spark.read.option("header", "true").option("delimiter",";").csv('test/employee.csv'))
-    #newColNames = Seq("id", "first_name", "second_name", "floor")
-    #df2 = df.toDF(newColNames: _*)
     return df
 
 
@@ -82,43 +80,5 @@ def start_spark(app_name='my_spark_app', master='local[*]', jar_packages=[],
     return spark_sess, spark_logger, config_dict
 
 
-def create_test_data(spark, config):
-    """Create test data.
-    This function creates both both pre- and post- transformation data
-    saved as Parquet files in tests/test_data. This will be used for
-    unit tests as well as to load as part of the example ETL job.
-    :return: None
-    """
-    # create example data from scratch
-    schema = StructType([StructField('id',IntegerType()),StructField('first_name', StringType()),
-    StructField('second_name', StringType()), StructField('floor',IntegerType())])
-    local_records = [
-        Row(id=1, first_name='Dan', second_name='Germain', floor=1),
-        Row(id=2, first_name='Dan', second_name='Sommerville', floor=1),
-        Row(id=3, first_name='Alex', second_name='Ioannides', floor=2),
-        Row(id=4, first_name='Ken', second_name='Lai', floor=2),
-        Row(id=5, first_name='Stu', second_name='White', floor=3),
-        Row(id=6, first_name='Mark', second_name='Sweeting', floor=3),
-        Row(id=7, first_name='Phil', second_name='Bird', floor=4),
-        Row(id=8, first_name='Kim', second_name='Suter', floor=4)
-    ]
-
-    df = spark.createDataFrame(local_records, schema)
-    # write to Parquet file format
-    (df.coalesce(1).write.parquet('test/test_data/employees', mode='overwrite'))
-    #df.write.format("parquet").mode("overwrite").save('test/test_data/employees')
-    #df.write.mode('overwrite').parquet("test/test_data/employees") 
-    #df.write.parquet("test/test_data/employees/proto.parquet")   
-    #df.to_parquet('test/test_data/employees/proto.parquet')
-    #df.write.format('parquet').save('test_ETL.parquet')
-    # create transformed version of data
-    df_tf = transform_data(df, config['steps_per_floor'])
-    print(df_tf)
-    # write transformed version of data to Parquet
-    (df_tf.coalesce(1).write.parquet('test/test_data/employees_report', mode='overwrite'))
-    return None
-
-
-# entry point for PySpark ETL application
 if __name__ == '__main__':
     main()
